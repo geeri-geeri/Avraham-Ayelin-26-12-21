@@ -2,12 +2,12 @@ import "./App.css";
 import Main from "./Screens/Main";
 import Favorites from "./Screens/Favorites";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HeaderNav from "./HeaderNav";
+import HeaderNav from "./Components/HeaderNav";
 //import CitySearch from "./Components/CitySearch";
 
 function App() {
   return (
-    <div>
+    <div className="mainContent">
       <BrowserRouter>
         <HeaderNav />
         <Routes>

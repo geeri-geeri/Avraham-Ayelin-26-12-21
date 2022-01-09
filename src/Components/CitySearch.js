@@ -1,61 +1,176 @@
 import React, { useState } from "react";
-import axios from "axios";
+//import { API_KEY, BASE_URL } from "../api/ApiConfig";
+import { TextField, Autocomplete } from "@mui/material";
 
-const CitySearch = (props) => {
-
-  const [search, setSearch] = useState("");
-  const [result, setResult] = useState([]);
-  const { localS, setLocals } = useState("");
-
-  const url = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=TyKB4eSym5HXpp8zFnqAAlfwN5gy9Tqv&q=${search}`;
-
-  async function searchCity() {
-
-    const response = await axios.get(url).then();
-    setResult([response.data])
-    console.log(response.data)
-    setSearch('')
+const mockAutocompleteSearch = [{
+  
+    "Version": 1,
+    "Key": "249758",
+    "Type": "City",
+    "Rank": 30,
+    "LocalizedName": "Amsterdam",
+    "Country": {
+      "ID": "NL",
+      "LocalizedName": "Netherlands"
+    },
+    "AdministrativeArea": {
+      "ID": "NH",
+      "LocalizedName": "North Holland"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "3509299",
+    "Type": "City",
+    "Rank": 45,
+    "LocalizedName": "Amsterdam Centrum",
+    "Country": {
+      "ID": "NL",
+      "LocalizedName": "Netherlands"
+    },
+    "AdministrativeArea": {
+      "ID": "NH",
+      "LocalizedName": "North Holland"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "3509283",
+    "Type": "City",
+    "Rank": 45,
+    "LocalizedName": "Amsterdam Nieuw-West",
+    "Country": {
+      "ID": "NL",
+      "LocalizedName": "Netherlands"
+    },
+    "AdministrativeArea": {
+      "ID": "NH",
+      "LocalizedName": "North Holland"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "3509344",
+    "Type": "City",
+    "Rank": 45,
+    "LocalizedName": "Amsterdam Noord",
+    "Country": {
+      "ID": "NL",
+      "LocalizedName": "Netherlands"
+    },
+    "AdministrativeArea": {
+      "ID": "NH",
+      "LocalizedName": "North Holland"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "3509294",
+    "Type": "City",
+    "Rank": 45,
+    "LocalizedName": "Amsterdam Oost",
+    "Country": {
+      "ID": "NL",
+      "LocalizedName": "Netherlands"
+    },
+    "AdministrativeArea": {
+      "ID": "NH",
+      "LocalizedName": "North Holland"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "3509347",
+    "Type": "City",
+    "Rank": 45,
+    "LocalizedName": "Amsterdam West",
+    "Country": {
+      "ID": "NL",
+      "LocalizedName": "Netherlands"
+    },
+    "AdministrativeArea": {
+      "ID": "NH",
+      "LocalizedName": "North Holland"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "3509274",
+    "Type": "City",
+    "Rank": 45,
+    "LocalizedName": "Amsterdam Zuid",
+    "Country": {
+      "ID": "NL",
+      "LocalizedName": "Netherlands"
+    },
+    "AdministrativeArea": {
+      "ID": "NH",
+      "LocalizedName": "North Holland"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "249493",
+    "Type": "City",
+    "Rank": 45,
+    "LocalizedName": "Amsterdam Zuidoost",
+    "Country": {
+      "ID": "NL",
+      "LocalizedName": "Netherlands"
+    },
+    "AdministrativeArea": {
+      "ID": "NH",
+      "LocalizedName": "North Holland"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "3509289",
+    "Type": "City",
+    "Rank": 55,
+    "LocalizedName": "Amsterdam Oud-Oost",
+    "Country": {
+      "ID": "NL",
+      "LocalizedName": "Netherlands"
+    },
+    "AdministrativeArea": {
+      "ID": "NH",
+      "LocalizedName": "North Holland"
+    }
+  },
+  {
+    "Version": 1,
+    "Key": "3509308",
+    "Type": "City",
+    "Rank": 55,
+    "LocalizedName": "Amsterdam Oud-West",
+    "Country": {
+      "ID": "NL",
+      "LocalizedName": "Netherlands"
+    },
+    "AdministrativeArea": {
+      "ID": "NH",
+      "LocalizedName": "North Holland"
+    }
   }
+]
 
-  const SubmitForm = (e) => {
-    e.preventDefault()
-    searchCity()
 
-    //saving response data into local storage
-    localStorage.setItem("setLocals", setLocals);
-    localStorage.setItem("localS", setLocals ? localS : "")
-  };
+const CitySearch = () => {
+  const [cities, setCities] = useState([]);
+
+  // /locations/v1/cities/autocomplete?apikey=TyKB4eSym5HXpp8zFnqAAlfwN5gy9Tqv&q=%20
+  setCities(mockAutocompleteSearch);
 
   return (
-    <div>
-      <form onSubmit={SubmitForm}>
-        <div className="input-group mt-3 w-75 mx-auto">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search city..."
-            aria-label="Search City"
-            aria-describedby="basic-addon2"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            required
-          />
-          <button type="submit" className="input-group-text" id="basic-addon2">
-            <i className="fas fa-search"></i>
-          </button>
-        </div>
-      </form>
-
-      {result.map((item, index) => {
-        return (
-          <div key={index}>
-            <div>
-              <p>{item.LocalizedName}</p>
-            </div>
-          </div>
-        );
-      })}
-    </div>
+      <Autocomplete
+        disablePortal
+        id="combo-box-demo"
+        options={cities}
+        sx={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} label="Search City Here..." variant="outlined" />}
+        // getOptionLabel={(option) => `${option.LocalizedName} ${option.Country.LocalizedName} ${option.Key}`}
+      />
   );
 };
 
