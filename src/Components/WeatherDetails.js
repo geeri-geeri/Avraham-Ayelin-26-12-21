@@ -1,5 +1,7 @@
 import React from "react";
 
+import AutocompleteSearch from "./autocompleteSearch";
+
 const fillDigit = (num) => {
   const strNum = num + "";
   const strLength = strNum.length;
@@ -19,14 +21,11 @@ const DaysInWeek = {
   6: "Sat",
 };
 
+
 const WeatherDetails = ({ pageData = {} }) => {
   const { cityData, weatherData } = pageData || {};
 
   const { DailyForecasts = [] } = pageData.weatherData.weatherForcastData || {};
-
-  // console.log('-----pageData----: ', pageData)
-  console.log('-----DailyForecasts----: ', DailyForecasts)
-
 
   const { Value = 0 } =
     weatherData?.weatherCurrentData[0]?.ApparentTemperature?.Metric || {};
@@ -43,19 +42,24 @@ const WeatherDetails = ({ pageData = {} }) => {
 
   return (
     <div>
-        
+      <div style={{ margin: "30px"}}>
+      <AutocompleteSearch />
+      </div>
+      
+      <div className="detalis" style={{border: "1px solid black", padding: "30px"}}>
       <div style={{display: 'flex'}}>
         <img src={getIcon()} alt="icon" />
         <h3>{cityData?.LocalizedName}</h3>
       </div>
       <strong style={{marginLeft:'100px'}}>{currentWeatherValue}&#176; C</strong>
       <div style={{textAlign: 'center',justifyContent: 'center'}}>
-      <h2>{cityWeathertext}</h2>
+      <h1 className="display-1">{cityWeathertext}</h1>
       </div>
       
       <br/>
 
-      <div className="forecastInfo" style={{display: 'flex', justifyContent: 'space-around', marginTop: '180px'}}>
+      <div className="card-deck" style={{display: 'flex', 
+                      justifyContent: 'space-around', marginTop: '100px', padding: "20px"}}>
         {
           DailyForecasts.map((day, idx) => {
             const { Minimum, Maximum } = day.Temperature;
@@ -63,14 +67,17 @@ const WeatherDetails = ({ pageData = {} }) => {
             const dayNum = new Date(day.Date).getDay();
 
             return (
-              <div key={idx}>
+              <div className="card" key={idx}>
+              <div className="card-text"  style={{height: "100%", width:"100%", alignContent: "center", margin: "30px"}}>
                 <div className="day">{DaysInWeek[dayNum]}</div>
                 <div className="temp">{avgTemp}&#176; {Minimum.Unit || Maximum.Unit}</div>
+              </div>
               </div>
             );
           })
         }
       </div>
+      </div>  
 
     </div>
     

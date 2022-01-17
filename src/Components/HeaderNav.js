@@ -5,11 +5,13 @@ var link = {
     color: "#fff",
     fontStyle: "bold",
     textDecoration: "none",
-    margin: "5px",
+    margin: "2px",
     backgroundColor: "rgba(0, 0, 255, 0.2)",
-    borderRadius: "3px",
+    border: "2px solid lightgrey",
     padding: "3px"
 }
+
+
 
 const HeaderNav = () => {
     return <div>
